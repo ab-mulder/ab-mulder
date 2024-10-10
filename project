@@ -1,0 +1,338 @@
+# Part I
+
+## Report
+
+### Executive Summary
+Using the data from the merged data set "df4", I wanted to answer questions about when a customer is most likely to purchase a product and where. Therefore, I looked at graphs that compare purchases to where purchases were made, either in person, online, or via a catalog (which are defined as location within this report). I also wanted to compare wheather income or education had any impact on the amount of purchases an individual would make at these various loctions. Then, I wanted to see if visiting the website created more purchases or less in these locations.
+
+I concluded that income does impact where sales happen. Those with higher incomes make more purchases via a catalog than other income brackets. However, those with middle income make more purchases via the physical store than those of the other income bracket. I also concluded that education is not a significant impact. Finally, I concluded that when comparing website visits, those who purchase both online and via a catalog are more likely to make more purchases within the first two visits of the website. Whereas, website views don't show a significan relationship between store puchases.Based on the data, I concluded that income does impact where sales happen. Those with higher incomes make more purchases via a catalog than other income brackets. However, those with middle income make more purchases via the physical store than those of the other income bracket. I also concluded that education is not a significant impact. Finally, I concluded that when comparing website visits, those who purchase both online and via a catalog are more likely to make more purchases within the first two visits of the website. Whereas, website views don't show a significan relationship between store puchases.
+ 
+
+### Research Questions
+
+1. Does income level effect catalog purchases?
+2. Does income level effect store purchases?
+3. Does education level effect catalog purchases?
+4. Does education level effect store purchases?
+4. Do more web visits result in more purchases?
+
+
+### The Data
+# Read in the data
+import os
+os.getcwd()
+## Variable Definitions
+    AcceptedCmp1: 1 if customer accepted the offer in the 1st campaign, 0 otherwise
+    AcceptedCmp2: 1 if customer accepted the offer in the 2nd campaign, 0 otherwise
+    AcceptedCmp3: 1 if customer accepted the offer in the 3rd campaign, 0 otherwise
+    AcceptedCmp4: 1 if customer accepted the offer in the 4th campaign, 0 otherwise
+    AcceptedCmp5: 1 if customer accepted the offer in the 5th campaign, 0 otherwise
+    Response (target): 1 if customer accepted the offer in the last campaign, 0 otherwise
+    Complain: 1 if customer complained in the last 2 years
+    DtCustomer: date of customer’s enrolment with the company
+    Education: customer’s level of education
+    Marital: customer’s marital status
+    Kidhome: number of small children in customer’s household
+    Teenhome: number of teenagers in customer’s household
+    Income: customer’s yearly household income
+    MntFishProducts: amount spent on fish products in the last 2 years
+    MntMeatProducts: amount spent on meat products in the last 2 years
+    MntFruits: amount spent on fruits products in the last 2 years
+    MntSweetProducts: amount spent on sweet products in the last 2 years
+    MntWines: amount spent on wine products in the last 2 years
+    MntGoldProds: amount spent on gold products in the last 2 years
+    NumDealsPurchases: number of purchases made with discount
+    NumCatalogPurchases: number of purchases made using catalogue
+    NumStorePurchases: number of purchases made directly in stores
+    NumWebPurchases: number of purchases made through company’s web site
+    NumWebVisitsMonth: number of visits to company’s web site in the last month
+    Recency: number of days since the last purchase
+# Importing Data Set 1 from CSV
+import pandas as pd #import pandas package
+import numpy as np #import numpy package
+from pandas import Series, DataFrame
+df1 = pd.read_csv('Marketing_Data_Set_1.csv') #assign variable to data set 1
+df1
+# Importing Data Set 2 from CSV
+df2 = pd.read_csv('Marketing_Data_Set_2.csv') #assign variable to data set 2
+df2
+# Merge Data Set 1 and Data Set 2 together
+df3 = pd.merge(df1,df2, on='CustomerID', how='inner') 
+df3 = df3.set_index(df1.index)
+df3
+# Determining if any cells are empty within the data
+
+df3.isna().any()  #shows false is there are no empty cells within the column, will show true if there are empty cells    
+import pandas as pd
+from pandas import DataFrame as df
+import numpy as np
+
+#Recode at least one variable
+#Created a new column name, titled "MaritalCode" and added its corresponding letter code associated with the Column Marital_Status
+#Where, Married = M, Single = S, Together = T, Divorced = D, and Widow = W
+
+df3['MaritalCode']=df3['Marital_Status'].replace(to_replace=['Married','Single','Together','Divorced','Widow'],value=['M','S','T','D','W'])
+df3
+import pandas as pd
+import os
+
+
+bins = [0, 52200, 156600, 700000] #create number of vins and their scope
+group_names = ['Low', 'Middle', 'High'] #assign names to each bin
+df3['Income_Levels'] = pd.cut(df1['Income'], bins, labels=group_names) #create and income level column with data pulled from the 'Income" column that alreay exists in the data
+pd.DataFrame(df3)
+df3
+# Save new data: Final version of Midterm Marketing Data
+# df3.to_csv('output.csv')
+## Data Exploration
+
+Below, I pulled data fom the two merged data sets. I wanted to answer questions about when a customer is most likely to purchase a product and where. Therefore, I looked at graphs that compare purchases to where purchases were made, either in person, online, or via a catalog (which are defined as location within this report). I also wanted to compare wheather income or education had any impact on the amount of purchases an individual would make at these various loctions. Then, I wanted to see if visiting the website created more purchases or less in these locations.
+
+ 
+### Discussion, Anlysis & Conclusion
+
+From the data, I learned that some variable are significant to purchases while others are not. For instance, income level is a predictor of purchases for certain locations. And I can also see when a person is most likely to make a purchase and where. This is valuable because I can tailor catalog ads that maket torward those with a higher income since they result in the most purchases in that location. I can also determine that most customers buy most products within the first or second visit to a website, so I should make sure my site's products are easy to view and sort though online, and my checkout process is smooth and easy to understand. I also know that education isn't a predictor of purchases, so I shouldn't worry about targeting a specific education level.
+
+1. Does income level effect catalog purchases?
+
+Yes, those within the higher income bracket ($156,600 - $700,000) make more purchases via a catalog than those in other income brackets (low and medium).
+
+2. Does income level effect store purchases?
+
+Yes, those within the middle income bracket ($52,200 - $156,599) make more purchases at a physical store than those in other income brackets (low and high).
+
+3. Does education level effect catalog purchases?
+
+No, there is not a significan difference between the various education levels and catalog purchases.
+
+4. Does education level effect store purchases?
+
+No, there is not a significan difference between the various education levels and store purchases.
+
+5. Do more web visits result in more purchases?
+
+Yes, website visits do result in more purchases, but only within the first two visits for online and catalog purchases. After the first two visits, the number or purchased items significantly decreases.
+
+# Statiscial Analysis for all numerical values in our dataset
+ICData = df3
+ICData.info
+print(ICData[['Income','Kidhome','Teenhome','Complain','Recency','MntWines','MntMeatProducts','MntSweetProducts','MntGoldProds','NumWebPurchases','NumCatalogPurchases','NumStorePurchases','NumWebVisitsMonth','AcceptedCmp3','AcceptedCmp4','AcceptedCmp5','AcceptedCmp1','AcceptedCmp2','Response']].describe())
+print('\n') #create space
+print("Count of Marital Status Types") #titling the next section
+print(df3['Marital_Status'].value_counts()) #find count for 'Marital_Status' column
+print('\n') #create space
+print("Count of Education Levels") #titling the next section
+print(df3['Education'].value_counts()) #find count for 'Education' column
+
+df3
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df4 = pd.read_csv('Final_Version_Midterm_Marketing_Data.csv')
+
+# Answering the question: Does income level effect catalog purchases?
+income_catalog = df4.Income_Levels.unique()
+income_catalog_y = []
+for income_catalog_item in income_catalog:
+    income_catalog_y.append(df4.NumCatalogPurchases[df4.Income_Levels==income_catalog_item].mean())
+income_catalog_n=len(income_catalog_y) # n = income level observations
+income_catalog_x=np.arange(income_catalog_n)
+plt.barh(income_catalog_x,income_catalog_y)
+plt.xlabel('Catalog Purchases') #label x-axis
+plt.ylabel('Income Level') #label y-axis
+plt.title('Number of Catalog Purchases by Income Level') #label the title of your graph
+plt.yticks(income_catalog_x,income_catalog,color='blue') #changing the tick color so they stand out on the y axis
+plt.show()
+print('\n')
+
+# Answering the question: Does income level effect store purchases?
+income_store = df4.Income_Levels.unique()
+income_store_y = []
+for income_store_item in income_store:
+    income_store_y.append(df4.NumStorePurchases[df4.Income_Levels==income_store_item].mean())
+income_store_n=len(income_store_y) # n = income level observations
+income_store_x=np.arange(income_store_n)
+plt.barh(income_store_x,income_store_y)
+plt.xlabel('Store Purchases') #label x-axis
+plt.ylabel('Income Level') #label y-axis
+plt.title('Number of Store Purchases by Income Level') #label the title of your graph
+plt.yticks(income_store_x,income_store,color='blue') #changing the tick color so they stand out on the y axis
+plt.show()
+print('\n')
+
+# Answering the question: Does education level effect catalog purchases?
+education_catalog = df4.Education.unique()
+education_catalog_y = []
+for education_catalog_item in education_catalog:
+    education_catalog_y.append(df4.NumCatalogPurchases[df4.Education==education_catalog_item].mean())
+education_catalog_n=len(education_catalog_y) # n = education level observations
+education_catalog_x=np.arange(education_catalog_n)
+plt.barh(education_catalog_x,education_catalog_y)
+plt.xlabel('Catalog Purchases') #label y-axis
+plt.ylabel('Education Level') #label x-axis
+plt.title('Number of catalog Purchases by Education Level') #label the title of your graph
+plt.yticks(education_catalog_x,education_catalog,color='blue') #changing the tick color so they stand out on the y axis
+plt.show()
+print('\n')
+
+# Answering the question: Does education level effect store purchases?
+education_store = df4.Education.unique()
+education_store_y = []
+for education_store_item in education_store:
+    education_store_y.append(df4.NumStorePurchases[df4.Education==education_store_item].mean())
+education_store_n=len(education_store_y) # n = education level observations
+education_store_x=np.arange(education_store_n)
+plt.barh(education_store_x,education_store_y)
+plt.xlabel('Store Purchases') #label x-axis
+plt.ylabel('Education Level') #label y-axis
+plt.title('Number of Store Purchases by Education Level') #label the title of your graph
+plt.yticks(education_store_x,education_store,color='blue') #changing the tick color so they stand out on the y axis
+plt.show()
+print('\n')
+
+# Answering the question: Do more web visits result in more website purchases?
+plt.hist(ICData.NumWebVisitsMonth, 10)
+mn = str(round(ICData.NumWebPurchases.mean(),2))
+sd = str(round(ICData.NumWebPurchases.std(),2))
+plt.xlabel('Number of Website Visits') #label x-axis
+plt.ylabel('Number of Website Purchases') #label y-axis
+plt.title('Number of Website Purchases by Website Visits: $\mu= {mn}$, $\sigma={sd}$') #label the title of your graph
+plt.show()
+print('\n')
+
+a = df4['NumWebVisitsMonth']
+b = df4['NumWebPurchases']
+plt.xlabel('Number of Website Visits') #label x-axis
+plt.ylabel('Number of Website Purchases') #label y-axis
+plt.title('Number of Website Purchases by Website Visits') #label the title of your graph
+plt.yticks(color='blue') #changing the tick color so they stand out on the y axis
+plt.bar(a,b)
+plt.show()
+print('\n')
+
+# Answering the question: Do more web visits result in more catalog purchases?
+a = df4['NumWebVisitsMonth']
+b = df4['NumCatalogPurchases']
+plt.xlabel('Number of Website Visits') #label x-axis
+plt.ylabel('Number of Website Purchases') #label y-axis
+plt.title('Number of Catalog Purchases by Website Visits') #label the title of your graph
+plt.yticks(color='blue') #changing the tick color so they stand out on the y axis
+plt.bar(a,b)
+plt.show()
+print('\n')
+
+# Answering the question: Do more web visits result in more store purchases?
+a = df4['NumWebVisitsMonth']
+b = df4['NumStorePurchases']
+plt.xlabel('Number of Website Visits') #label x-axis
+plt.ylabel('Number of Store Purchases') #label y-axis
+plt.title('Number of Store Purchases by Website Visits') #label the title of your graph
+plt.yticks(color='blue') #changing the tick color so they stand out on the y axis
+plt.bar(a,b)
+plt.show()
+### Conclusion
+
+Using the data from the merged data set "df4", I wanted to answer questions about when a customer is most likely to purchase a product and where. Therefore, I looked at graphs that compare purchases to where purchases were made, either in person, online, or via a catalog (which are defined as location within this report). I also wanted to compare wheather income or education had any impact on the amount of purchases an individual would make at these various loctions. Then, I wanted to see if visiting the website created more purchases or less in these locations.
+
+I concluded that income does impact where sales happen. Those with higher incomes make more purchases via a catalog than other income brackets. However, those with middle income make more purchases via the physical store than those of the other income bracket. I also concluded that education is not a significant impact. Finally, I concluded that when comparing website visits, those who purchase both online and via a catalog are more likely to make more purchases within the first two visits of the website. Whereas, website views don't show a significan relationship between store puchases.
+
+From the data, I learned that some variable are significant to purchases while others are not. For instance, income level is a predictor of purchases for certain locations. And I can also see when a person is most likely to make a purchase and where. This is valuable because I can tailor catalog ads that maket torward those with a higher income since they result in the most purchases in that location. I can also determine that most customers buy most products within the first or second visit to a website, so I should make sure my site's products are easy to view and sort though online, and my checkout process is smooth and easy to understand. Because I also know that education isn't a predictor of purchases, I know shouldn't worry about targeting a specific education level, rather certain income levels within a given location.
+
+#Part II
+
+##Importing merged data set "Final_Version_Midterm_Marketing_Data.csv" created in part 1 python midterm
+import os
+os.getcwd()
+
+import pandas as pd
+import numpy as np
+from pandas import Series, DataFrame
+df = pd.read_csv('Final_Version_Midterm_Marketing_Data.csv')
+df
+#using the matplotlib package for creating graphs
+import matplotlib.pyplot as plt
+from random import random
+#Below is my menue
+def runMenu(df):
+    #Menu System: These are the various menue option the user can select from by entering 1, 2, 3, 4, 5, 6, 7 or 8
+    quit = False
+    while quit == False:
+        print("\nMENU")
+        print("type corresponding number for menu option below")
+        print("1. View standard deviation of all quantitative data")
+        print("2. View means of all quantitative data")
+        print("3. View counts of all qualitative data")
+        print("4. View Store Purchases based on Marital Status")
+        print("5. View Store Purchases based on Education Level")
+        print("6. View min value of all quantitative data")
+        print("7. View max value of all quantitative data")
+        print("8. Quit menu")
+        menu_choice = input("What is your choice: ")
+        try:
+            menu_choice = int(menu_choice) #convert to integer
+        except: #If the user enter text or a symbol
+            print("ERROR: Please enter option 1, 2, 3, 4, 5, 6, 7, or 8 to quit")
+            continue #returns to top of loop
+        if menu_choice not in [1, 2, 3, 4, 5, 6, 7, 8]:
+            print("ERROR: Please enter option 1, 2, 3, 4, 5, 6, 7, or 8 to quit")
+        else:
+             #looks at each column to determin if it's a quantitative value and pulls the standard deviation for that column if it's quantitative
+            if menu_choice == 1:
+                print('\nGet the Standard Deviations of Quantitative Columns')
+                for c in df.select_dtypes('number').columns: # c stands for column
+                    print(f'{c}: {df[c].std():.2f}') 
+            #looks at each column to determin if it's a quantitative value and pulls the mean for that column if it's quantitative
+            if menu_choice == 2:
+                print('\nGet the Means of Quantitative Columns')
+                for c in df.select_dtypes('number').columns: # c stands for column
+                    print(f'{c}: {df[c].mean():.2f}') 
+            #looks at each column to determine if its qualitative and counts the number of objects within the  column if it's qualitative
+            if menu_choice == 3:
+                print('\nGet the Freqencies of Qualitative Columns') 
+                for c in df.select_dtypes('object').columns:
+                    print(f'{c}: \n\n{df[c].value_counts()}\n')
+            #Shows the mean of store purchases based on marital status
+            if menu_choice == 4: #barplot
+                print('\nGet Scatterplot Comparing Marital Status to Store Purchases')
+                y = []
+                rs = df.Marital_Status.unique() #making a list of all unique values within the Marital_Status column so we can loop through without hardcoding
+                for status in rs: #rs is a new value created, and stands for relationship sttus
+                    y.append(df.NumStorePurchases[df.Marital_Status==status].mean())
+                n=len(y) # n = marital status observations
+                x=np.arange(n)
+                plt.barh(x,y, height=.75,color='green', edgecolor='blue') 
+                plt.ylabel('Marital_Status') #label y-axis
+                plt.xlabel('Mean of Store Purchases')#label x-axis
+                plt.title('Mean of Store Purchases by Marital Status')#label the title of your graph
+                plt.yticks(x,rs,color='red') #changing the ticks from above so you can see/label/rotate things
+                plt.show()    
+            #Shows the mean of store purchases based on Education
+            if menu_choice == 5:
+                print('\nGet Scatterplot Comparing Education Status to Store Purchases')
+                y = []
+                rs = df.Education.unique()
+                for status in rs:
+                    y.append(df.NumStorePurchases[df.Education==status].mean())
+                n=len(y) # n = marital status observations
+                x=np.arange(n)
+                plt.barh(x,y, height=.75,color='green', edgecolor='blue')
+                plt.ylabel('Education Level') #label y-axis
+                plt.xlabel('Mean of Store Purchases') #label x-axis
+                plt.title('Mean of Store Purchases by Education Level') #label the title of your graph
+                plt.yticks(x,rs,color='red') #changing the ticks from above so you can see/label/rotate things
+                plt.show()
+                 #looks at each column to determin if it's a quantitative value and pulls the min value within column if it's quantitative
+            if menu_choice == 6:
+                print('\nGet the Min within Quantitative Columns')
+                for c in df.select_dtypes('number').columns: # c stands for column
+                    print(f'{c}: {df[c].min():.2f}')
+             #looks at each column to determin if it's a quantitative value and pulls the max value with that column if it's quantitative
+            if menu_choice == 7:
+                print('\nGet the Max within Quantitative Columns')
+                for c in df.select_dtypes('number').columns: # c stands for column
+                    print(f'{c}: {df[c].max():.2f}')
+            #Quits the menu
+            if menu_choice == 8:
+                quit = True # If user select 9, they can exit out of the menue
+runMenu(df)
